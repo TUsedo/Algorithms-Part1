@@ -1,1 +1,1 @@
-Repository for Analysis of Algorithms PartI (Princeton Coursera) Assignments 
+Repository for Analysis of Algorithms PartI (Coursera Princeton) Assignments 
