@@ -1,0 +1,7 @@
+#Ignore these directories
+.metadata
+.recommenders
+RemoteSystemsTempFiles
+
+#ignore these files
+algs4.jar
