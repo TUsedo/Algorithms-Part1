@@ -1,26 +1,72 @@
 import java.util.*;
 
-public class Deque <Item> implements Iterable <Item> {
-	
-	private int size;
-	private node first;
-	private node last;
-	
-	private class node{
-		private Item item;
-		private node next;
-		private node previous;
-	}
-		
-	public Deque(){
-		
-	}
+public class Deque<Item> implements Iterable<Item> {
 
-	public Iterator<Item> iterator(){
-		return null;		
-	}
-	public static void main(String[] args) {
+  private int size;
+  private node<Item> first;
+  private node<Item> last;
 
-	}
+  private class node<Item> {
+    private Item item;
+    private node<Item> next;
+    private node<Item> previous;
+  }
+
+  public Deque() {
+    first = null;
+    last = null;
+    size = 0;
+  }
+
+  public boolean isEmpty() {
+    return size == 0;
+  }
+
+  public int size() {
+    return size;
+  }
+
+  public void addFirst(Item item) {
+    if (item == null) {
+      throw new NullPointerException();
+    }
+    node<Item> oldFirst = first;
+    first = new node<Item>();
+    first.item = item;
+    first.previous = null;
+    if (isEmpty()) {
+      first.next = null;
+      last = first;
+    }
+    else {
+      oldFirst.previous = first;
+      first.next = oldFirst;
+    }
+  }
+  
+  public void addLast(Item item) {
+    if(item == null) {
+      throw new NullPointerException();
+    }
+    node<Item> oldLast = new node<Item>();
+    last = new node<Item>();
+    last.item = item;
+    last.next = null;
+    if(isEmpty()) {
+      last.previous = null;
+      first = last;
+    }
+    else {
+      last.previous = oldLast;
+      oldLast.next = last;
+    }
+  }
+
+  public Iterator<Item> iterator() {
+    return null;
+  }
+  
+  public static void main(String[] args) {
+  }
 
 }
