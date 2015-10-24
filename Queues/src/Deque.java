@@ -37,36 +37,93 @@ public class Deque<Item> implements Iterable<Item> {
     if (isEmpty()) {
       first.next = null;
       last = first;
-    }
-    else {
+    } else {
       oldFirst.previous = first;
       first.next = oldFirst;
     }
+    size++;
   }
   
   public void addLast(Item item) {
-    if(item == null) {
+    if (item == null) {
       throw new NullPointerException();
     }
     node<Item> oldLast = new node<Item>();
     last = new node<Item>();
     last.item = item;
     last.next = null;
-    if(isEmpty()) {
+    if (isEmpty()) {
       last.previous = null;
       first = last;
-    }
+    } 
     else {
       last.previous = oldLast;
       oldLast.next = last;
     }
+    size++;
+  }
+  
+  public Item removeFirst() {
+    Item item = null;
+    if (isEmpty()) {
+      throw new NoSuchElementException();
+    }
+    item =first.item;
+    if (size == 1) {
+      first = null;
+      last = null;
+    }
+    else {
+      first = first.next;
+      first.previous = null;
+    }
+    return item;
+  }
+  
+  public Item removeLast() {
+    Item item = null;
+    if (isEmpty()) {
+      throw new NoSuchElementException();      
+    }
+    item = last.item;
+    if (size == 1) {
+      last = null;
+      first = null;
+    }
+    else {
+      last = last.previous;
+      last.next = null;
+    }
+    return item;
+  }
+  
+  private class ListIterator implements Iterator<Item> {
+
+    private node<Item> current = first;
+
+    public boolean hasNext() {
+      return current != null;
+    }
+
+    public Item next() {
+      if (current == null) {
+        throw new NoSuchElementException();
+      }
+      Item item = current.item;
+      current = current.next;
+      return item;
+    }
+    
+    public void remove() {
+      throw new UnsupportedOperationException();
+    }
   }
 
   public Iterator<Item> iterator() {
-    return null;
+    return new ListIterator();
   }
   
   public static void main(String[] args) {
+    
   }
-
 }
