@@ -4,4 +4,5 @@
 RemoteSystemsTempFiles
 
 #ignore these files
+*.zip
 algs4.jar
