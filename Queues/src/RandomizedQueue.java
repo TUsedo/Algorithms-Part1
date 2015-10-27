@@ -1,4 +1,7 @@
-import java.util.*;
+import java.util.Iterator;
+import java.util.NoSuchElementException;
+
+import edu.princeton.cs.algs4.StdOut;
 import edu.princeton.cs.algs4.StdRandom;
 
 public class RandomizedQueue<Item> implements Iterable<Item> {
@@ -6,9 +9,8 @@ public class RandomizedQueue<Item> implements Iterable<Item> {
   private Item[] rq;
   private int size;
   
-  @SuppressWarnings("unchecked")
   public RandomizedQueue() {
-    rq = (Item[])new Object[1];
+    rq = (Item[]) new Object[1];
     size = 0;
   }
   
@@ -16,7 +18,7 @@ public class RandomizedQueue<Item> implements Iterable<Item> {
     return size == 0;
   }
   
-  public int size () {
+  public int size() {
     return size;
   }
   
@@ -25,16 +27,15 @@ public class RandomizedQueue<Item> implements Iterable<Item> {
       throw new NullPointerException();
     }
     if (size == rq.length) {
-      resize(2*size);
+      resize(2 * size);
     }
     rq[size] = item;
     size++;
   }
   
   private void resize(int resize) { 
-    @SuppressWarnings("unchecked")
     Item[] temp = (Item[]) new Object[resize];
-    for (int i = 0; i < rq.length; i++) {
+    for (int i = 0; i < size; i++) {
       temp[i] = rq[i];
     }
     rq = temp;
@@ -52,6 +53,9 @@ public class RandomizedQueue<Item> implements Iterable<Item> {
     }
     rq[size - 1] = null;
     size--;
+    if (size > 0 && size == rq.length/4) {
+      resize(rq.length/4);
+    }
     return item;
   }
   
@@ -66,13 +70,10 @@ public class RandomizedQueue<Item> implements Iterable<Item> {
   }
   
   private class ArrayIterator implements Iterator<Item> {
-    private int sizeCopy;
-    private Item[] rqCopy;
-    
-    @SuppressWarnings("unchecked")
-    private ArrayIterator() {
-      sizeCopy = size;
-      rqCopy = (Item[]) new Object[sizeCopy];
+    private int sizeCopy = size;
+   private Item[] rqCopy = (Item[]) new Object[sizeCopy];
+
+   private ArrayIterator() {
       for (int i = 0; i < size; i++) {
         rqCopy[i] = rq[i];
       }
@@ -80,21 +81,26 @@ public class RandomizedQueue<Item> implements Iterable<Item> {
     
     @Override
     public boolean hasNext() {
-      return (size != 0) ;
+      return (sizeCopy > 0);
     }
 
     @Override
     public Item next() {
-     if(sizeCopy == 0) {
-       throw new NoSuchElementException();
-     }
+      if (!hasNext()) {
+        throw new NoSuchElementException();
+      }
       int offset = StdRandom.uniform(sizeCopy);
       Item item = rqCopy[offset];
-      if(sizeCopy > 1)
-        rqCopy[offset] = rq[sizeCopy - 1];
+      if (sizeCopy > 1) {
+        rqCopy[offset] = rqCopy[sizeCopy - 1];
+      }
       rqCopy[sizeCopy - 1] = null;
       sizeCopy--;
       return item;
+    }
+    
+    public void remove() {
+      throw new UnsupportedOperationException();
     }
     
   }
@@ -102,7 +108,26 @@ public class RandomizedQueue<Item> implements Iterable<Item> {
   public Iterator<Item> iterator() {
     return new ArrayIterator();
   }
-  public static void main(String[] args) {
-    
-  }
+  
+/*  public static void main(String[] args) {  // unit testing
+    RandomizedQueue<Integer> randomQueue = new RandomizedQueue<Integer>();
+
+    randomQueue.enqueue(1);
+    randomQueue.enqueue(2);
+    randomQueue.enqueue(3);
+    randomQueue.enqueue(4);
+    randomQueue.enqueue(4);
+    randomQueue.enqueue(6);
+    randomQueue.enqueue(7);
+    randomQueue.enqueue(8);
+    randomQueue.enqueue(9);
+    randomQueue.dequeue();
+    randomQueue.dequeue();
+
+    StdOut.println("Output: ");
+    for (Integer x : randomQueue) {
+        StdOut.println("  X : " + x + " ");
+//        StdOut.println();
+    }
+}*/
 }
