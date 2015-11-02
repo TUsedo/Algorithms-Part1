@@ -2,8 +2,11 @@
 .metadata
 .recommenders
 RemoteSystemsTempFiles
+.settings
 
 #ignore these files
 *.zip
 algs4.jar
 *.class
+*.prefs
+.project
