@@ -10,3 +10,4 @@ algs4.jar
 *.class
 *.prefs
 .project
+.classpath
